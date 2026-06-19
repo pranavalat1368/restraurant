@@ -1,0 +1,14 @@
+[
+  {
+    "id": "res_1781868094732",
+    "name": "Test Guest",
+    "phone": "555-0101",
+    "email": "",
+    "date": "2026-07-01",
+    "guests": 2,
+    "occasion": "",
+    "notes": "",
+    "createdAt": "2026-06-19T11:21:34.732499+00:00",
+    "status": "pending"
+  }
+]
