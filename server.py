@@ -13,6 +13,17 @@ RESERVATIONS_FILE = DATA_DIR / 'reservations.json'
 MENU_FILE = DATA_DIR / 'menu.json'
 PORT = int(os.environ.get('PORT', '3000'))
 
+TABLES = [
+    {'number': 1, 'capacity': 2},
+    {'number': 2, 'capacity': 2},
+    {'number': 3, 'capacity': 4},
+    {'number': 4, 'capacity': 4},
+    {'number': 5, 'capacity': 6},
+    {'number': 6, 'capacity': 6},
+    {'number': 7, 'capacity': 8},
+    {'number': 8, 'capacity': 8},
+]
+
 
 def ensure_json_file(file_path: Path, default_value):
     file_path.parent.mkdir(parents=True, exist_ok=True)
@@ -29,6 +40,20 @@ def read_json_file(file_path: Path, fallback):
 
 def write_json_file(file_path: Path, value):
     file_path.write_text(json.dumps(value, indent=2), encoding='utf-8')
+
+
+def pick_available_table(reservations, reservation_date, guests):
+    occupied_tables = {
+        reservation.get('tableNumber')
+        for reservation in reservations
+        if reservation.get('date') == reservation_date and reservation.get('status') in {'confirmed', 'pending'}
+    }
+
+    for table in TABLES:
+        if table['capacity'] >= guests and table['number'] not in occupied_tables:
+            return table
+
+    return None
 
 
 ensure_json_file(MENU_FILE, {
@@ -108,6 +133,14 @@ class RestaurantHandler(SimpleHTTPRequestHandler):
             })
 
         reservations = read_json_file(RESERVATIONS_FILE, [])
+        table = pick_available_table(reservations, date, guests)
+
+        if table is None:
+            return self.send_json(HTTPStatus.OK, {
+                'ok': False,
+                'message': 'Sorry, no table is available for that date and party size.'
+            })
+
         reservation = {
             'id': f"res_{int(datetime.now(tz=timezone.utc).timestamp() * 1000)}",
             'name': name,
@@ -118,7 +151,9 @@ class RestaurantHandler(SimpleHTTPRequestHandler):
             'occasion': occasion,
             'notes': notes,
             'createdAt': datetime.now(tz=timezone.utc).isoformat(),
-            'status': 'pending'
+            'status': 'confirmed',
+            'tableNumber': table['number'],
+            'tableCapacity': table['capacity']
         }
 
         reservations.insert(0, reservation)
@@ -126,7 +161,7 @@ class RestaurantHandler(SimpleHTTPRequestHandler):
 
         return self.send_json(HTTPStatus.CREATED, {
             'ok': True,
-            'message': 'Reservation request received. We will confirm shortly.',
+            'message': f"Table {table['number']} is available and your reservation is confirmed.",
             'reservation': reservation
         })
 
