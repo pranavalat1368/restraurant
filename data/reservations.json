@@ -1,5 +1,53 @@
 [
   {
+    "id": "res_1781898055586",
+    "name": "Demo User",
+    "phone": "9427981710",
+    "email": "pranavsalat0852@gmail.com",
+    "date": "2026-06-20",
+    "guests": 3,
+    "occasion": "Date night",
+    "notes": "",
+    "createdAt": "2026-06-19T19:40:55.586689+00:00",
+    "status": "pending"
+  },
+  {
+    "id": "res_1781897874969",
+    "name": "Demo User",
+    "phone": "9427981710",
+    "email": "pranavsalat0852@gmail.com",
+    "date": "2026-06-20",
+    "guests": 2,
+    "occasion": "Birthday",
+    "notes": "",
+    "createdAt": "2026-06-19T19:37:54.969447+00:00",
+    "status": "pending"
+  },
+  {
+    "id": "res_1781897618992",
+    "name": "Demo User",
+    "phone": "15551234567",
+    "email": "pranavsalat0852@gmail.com",
+    "date": "2026-06-21",
+    "guests": 3,
+    "occasion": "Birthday",
+    "notes": "",
+    "createdAt": "2026-06-19T19:33:38.993003+00:00",
+    "status": "pending"
+  },
+  {
+    "id": "res_1781897515670",
+    "name": "Demo User",
+    "phone": "+15551234567",
+    "email": "demo@example.com",
+    "date": "2026-06-25",
+    "guests": 2,
+    "occasion": "Birthday",
+    "notes": "Window seat if possible",
+    "createdAt": "2026-06-19T19:31:55.670890+00:00",
+    "status": "pending"
+  },
+  {
     "id": "res_1781868094732",
     "name": "Test Guest",
     "phone": "555-0101",
